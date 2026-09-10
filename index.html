@@ -2276,9 +2276,7 @@
             </div>
             <button class="btn btn-solid btn-block" id="adminLoginBtn">Sign in</button>
             <div class="status-line" id="adminStatus"></div>
-            <div class="mini-note">Demo credentials — username: <strong style="color:var(--accent-2)">admin</strong>,
-              password: <strong style="color:var(--accent-2)">tsc-admin</strong>. Replace this with real authentication
-              (and 2FA) before deployment.</div>
+
           </div>
           <div id="adminDashBlock" class="hidden">
             <h3>Council dashboard</h3>
@@ -2530,7 +2528,7 @@
 
   <script>
     /* ============================= API CONFIG & HELPERS ============================= */
-    const API_BASE = 'https://technical-sub-council-website.vercel.app/';
+    const API_BASE = 'https://technical-sub-council-website.vercel.app/api';
     // const API_BASE = 'http://localhost:5000/api';
 
     async function apiRequest(endpoint, method = 'GET', body = null) {
