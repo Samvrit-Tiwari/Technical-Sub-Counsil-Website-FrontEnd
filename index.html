@@ -1,0 +1,3456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Sub-Council - HBTU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ============================= TOKENS & GLASS THEME ============================= */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    /* ==========================================================================
+   Glassmorphic Design Tokens
+   ========================================================================== */
+    :root {
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --bg: #06090e;
+      --glass-bg: rgba(18, 24, 38, 0.55);
+      --glass-bg-hover: rgba(26, 36, 56, 0.7);
+      --glass-panel: rgba(14, 20, 32, 0.65);
+      --glass-raised: rgba(28, 38, 58, 0.45);
+
+      /* Glass Borders & Highlights */
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-subtle: rgba(255, 255, 255, 0.06);
+      --glass-border-accent: rgba(0, 217, 192, 0.4);
+      --glass-border-amber: rgba(255, 176, 32, 0.45);
+
+      /* Shadows & Reflections */
+      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --glass-shadow-lg: 0 16px 48px 0 rgba(0, 0, 0, 0.55);
+      --glass-inset: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+
+      --text: #f0f4f8;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --accent: #ffb020;
+      --accent-glow: rgba(255, 176, 32, 0.28);
+      --accent-2: #00d9c0;
+      --accent-2-glow: rgba(0, 217, 192, 0.25);
+      --danger: #ff5a5f;
+      --danger-glow: rgba(255, 90, 95, 0.25);
+
+      --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Background Glow Orbs for Glass Refraction */
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.25;
+      animation: floatOrb 22s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, var(--accent-2) 0%, transparent 70%);
+      top: -100px;
+      right: -80px;
+    }
+
+    .orb-2 {
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, #7928ca 0%, #ff0080 70%);
+      bottom: 20%;
+      left: -180px;
+      animation-duration: 28s;
+    }
+
+    .orb-3 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--accent) 0%, transparent 75%);
+      top: 45%;
+      right: 10%;
+      animation-duration: 20s;
+    }
+
+    @keyframes floatOrb {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(40px, -60px) scale(1.08);
+      }
+
+      100% {
+        transform: translate(-30px, 40px) scale(0.95);
+      }
+    }
+
+    /* Subtle grid overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #111;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent-2);
+      outline-offset: 3px;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      text-shadow: 0 0 12px var(--accent-2-glow);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 20px;
+      height: 1px;
+      background: var(--accent-2);
+      box-shadow: 0 0 8px var(--accent-2);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 48px;
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ============================= GLASS CORE UTILITIES ============================= */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
+      border-radius: var(--radius);
+    }
+
+    /* ============================= NAV ============================= */
+    header#site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(8, 12, 18, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      min-width: 0;
+      flex-shrink: 1;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 10px rgba(0, 217, 192, 0.35));
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .brand small {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-account-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--glass-border);
+      margin: 0 2px;
+    }
+
+    nav.primary-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    nav.primary-links button {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      transition: all .25s ease;
+      font-family: var(--font-body);
+      font-weight: 500;
+    }
+
+    nav.primary-links button:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    nav.primary-links button.active {
+      color: var(--accent);
+      background: rgba(255, 176, 32, 0.08);
+      border-color: var(--glass-border-amber);
+      box-shadow: 0 0 16px rgba(255, 176, 32, 0.15);
+    }
+
+    .nav-side {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--text);
+      letter-spacing: 0.02em;
+      transition: all .25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      box-shadow: var(--glass-inset);
+    }
+
+    .btn:hover {
+      border-color: var(--glass-border-accent);
+      background: rgba(0, 217, 192, 0.1);
+      color: var(--accent-2);
+      box-shadow: 0 0 16px var(--accent-2-glow), var(--glass-inset);
+      transform: translateY(-1px);
+    }
+
+    .btn-solid {
+      background: linear-gradient(135deg, #ffc457 0%, #ff9e00 100%);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #0d0a04;
+      font-weight: 600;
+      box-shadow: 0 4px 18px var(--accent-glow);
+    }
+
+    .btn-solid:hover {
+      background: linear-gradient(135deg, #ffd37a 0%, #ffa71a 100%);
+      border-color: #fff;
+      color: #000;
+      box-shadow: 0 6px 24px rgba(255, 176, 32, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost-sm {
+      font-size: 0.72rem;
+      padding: 6px 12px;
+      color: var(--text-dim);
+      border-color: var(--glass-border-subtle);
+    }
+
+    .btn-block {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-danger {
+      border-color: rgba(255, 90, 95, 0.3);
+      color: var(--danger);
+      background: rgba(255, 90, 95, 0.05);
+    }
+
+    .btn-danger:hover {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #120304;
+      box-shadow: 0 0 18px var(--danger-glow);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 9px 10px;
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      transition: all .2s;
+    }
+
+    .nav-toggle:hover {
+      border-color: var(--accent-2);
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--text);
+      margin: 4px 0;
+      transition: transform .25s ease, opacity .2s ease;
+    }
+
+    .nav-toggle.open span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .nav-toggle.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.open span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    /* ============================= HERO ============================= */
+    section#home {
+      padding-top: 76px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero {
+      min-height: calc(100vh - 76px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      padding: 70px 32px 110px;
+      max-width: 1180px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    .circuit-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .circuit-bg path {
+      fill: none;
+      stroke: var(--accent-2);
+      stroke-width: 1;
+      stroke-opacity: 0.45;
+      stroke-dasharray: 6 8;
+      animation: dash 40s linear infinite;
+    }
+
+    .circuit-bg .pulse-dot {
+      fill: var(--accent);
+      opacity: 0.9;
+      filter: drop-shadow(0 0 6px var(--accent));
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -1000;
+      }
+    }
+
+    .boot {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-2);
+      min-height: 100px;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
+      white-space: pre-wrap;
+      text-shadow: 0 0 10px var(--accent-2-glow);
+    }
+
+    .boot .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--accent-2);
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+      box-shadow: 0 0 8px var(--accent-2);
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .hero-title {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2.6rem, 7.5vw, 5.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .7s ease, transform .7s ease;
+      text-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-title.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-title .accent-word {
+      color: var(--accent);
+      background: linear-gradient(135deg, #ffd37a, #ff9e00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 16px var(--accent-glow));
+    }
+
+    .hero-tagline {
+      position: relative;
+      z-index: 1;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 540px;
+      margin-top: 22px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .7s ease .15s, transform .7s ease .15s;
+    }
+
+    .hero-tagline.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-cta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 14px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .7s ease .3s, transform .7s ease .3s;
+    }
+
+    .hero-cta.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-stats {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--glass-border);
+      margin-top: 84px;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--glass-shadow-lg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      opacity: 0;
+      transition: opacity .7s ease .45s;
+    }
+
+    .hero-stats.reveal {
+      opacity: 1;
+    }
+
+    .stat {
+      background: rgba(14, 20, 32, 0.65);
+      padding: 24px 20px;
+      transition: background .2s;
+    }
+
+    .stat:hover {
+      background: rgba(24, 34, 52, 0.75);
+    }
+
+    .stat .num {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    .stat .label {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ============================= HOME EXTENDED SECTIONS ============================= */
+    .home-section {
+      padding: 85px 0 110px;
+      border-top: 1px solid var(--glass-border-subtle);
+      position: relative;
+      z-index: 1;
+    }
+
+    .home-achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .achv-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
+      padding: 26px;
+      border-radius: var(--radius);
+      transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .achv-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent-2), transparent);
+      box-shadow: 0 0 10px var(--accent-2);
+    }
+
+    .achv-card:hover {
+      border-color: var(--glass-border-accent);
+      transform: translateY(-5px);
+      background: var(--glass-bg-hover);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 20px var(--accent-2-glow);
+    }
+
+    .achv-card-badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent);
+      background: rgba(255, 176, 32, 0.12);
+      border: 1px solid var(--glass-border-amber);
+      padding: 4px 12px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 14px;
+      backdrop-filter: blur(6px);
+    }
+
+    .achv-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .achv-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .home-achv-action {
+      margin-top: 40px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    .home-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .pillar-card {
+      background: var(--glass-panel);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
+      padding: 26px 22px;
+      border-radius: var(--radius);
+      transition: all .25s ease;
+    }
+
+    .pillar-card:hover {
+      background: rgba(24, 34, 52, 0.65);
+      border-color: rgba(255, 255, 255, 0.22);
+      transform: translateY(-3px);
+    }
+
+    .pillar-icon {
+      font-family: var(--font-mono);
+      color: var(--accent-2);
+      font-size: 1.5rem;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 0 8px var(--accent-2));
+    }
+
+    .pillar-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .pillar-card p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ============================= SECRETARIES SECTION ============================= */
+    .secretaries-group-label {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 36px 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .secretaries-group-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--glass-border), transparent);
+    }
+
+    .secretaries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+
+    .secretary-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-align: center;
+      transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .secretary-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--glass-border-accent);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-2-glow);
+    }
+
+    .sec-img-wrap {
+      width: 100%;
+      height: 220px;
+      background: rgba(18, 24, 38, 0.8);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sec-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sec-fallback-avatar {
+      font-family: var(--font-mono);
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .sec-body {
+      padding: 18px 16px 20px;
+      background: rgba(14, 20, 32, 0.4);
+    }
+
+    .sec-body h4 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .sec-body .sec-role {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--accent-2);
+      margin-bottom: 4px;
+    }
+
+    .sec-body .sec-tenure {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    /* ============================= SECTIONS GENERIC ============================= */
+    section.page {
+      padding: 138px 0 130px;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    section.page.alt {
+      background: rgba(6, 10, 16, 0.5);
+      border-top: 1px solid var(--glass-border-subtle);
+      border-bottom: 1px solid var(--glass-border-subtle);
+    }
+
+    /* ============================= ACHIEVEMENTS PAGE ============================= */
+    .achievements-full-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 26px;
+    }
+
+    /* ============================= EVENTS ============================= */
+    .filter-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .filter-pill {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      padding: 8px 16px;
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      transition: all .25s ease;
+      box-shadow: var(--glass-inset);
+    }
+
+    .filter-pill:hover {
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+      background: rgba(0, 217, 192, 0.08);
+    }
+
+    .filter-pill.active {
+      background: var(--accent-2);
+      border-color: var(--accent-2);
+      color: #06211d;
+      font-weight: 600;
+      box-shadow: 0 0 18px var(--accent-2-glow);
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 26px;
+    }
+
+    .event-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
+    }
+
+    .event-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--glass-border-accent);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 0 20px var(--accent-2-glow);
+    }
+
+    .event-thumb {
+      height: 140px;
+      position: relative;
+      background: linear-gradient(135deg, rgba(32, 44, 68, 0.5) 0%, rgba(12, 18, 28, 0.8) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--glass-border-subtle);
+    }
+
+    .event-thumb .tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(6, 9, 14, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      padding: 5px 12px;
+      border-radius: 20px;
+      color: var(--accent-2);
+      position: absolute;
+      top: 12px;
+      left: 12px;
+    }
+
+    .event-body {
+      padding: 20px 22px 24px;
+    }
+
+    .event-date {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .event-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .event-body p {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .event-link {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap .2s;
+    }
+
+    .event-link:hover {
+      gap: 10px;
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* ============================= BLACKOUT / TEAM SECTION ============================= */
+    section#blackout {
+      border-top: 1px solid var(--glass-border-subtle);
+      border-bottom: 1px solid var(--glass-border-subtle);
+      position: relative;
+    }
+
+    .blackout-head {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .blackout-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2.4rem, 8vw, 4.5rem);
+      letter-spacing: 0.02em;
+      color: var(--accent);
+      text-shadow: 0 0 24px rgba(255, 176, 32, 0.45);
+    }
+
+    .blackout-sub {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .blackout-group-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin: 48px 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .blackout-group-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--glass-border), transparent);
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 22px;
+    }
+
+    .member-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
+      padding: 22px;
+      border-radius: var(--radius);
+      transition: all .25s ease;
+    }
+
+    .member-card:hover {
+      border-color: var(--glass-border-amber);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 16px var(--accent-glow);
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 14px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .member-card h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+
+    .member-card .role {
+      font-size: 0.78rem;
+      color: var(--accent-2);
+      margin-bottom: 6px;
+    }
+
+    .member-card .domain {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .team-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .team-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
+      padding: 22px 26px;
+      border-radius: var(--radius);
+      transition: all .25s ease;
+    }
+
+    .team-row:hover {
+      border-color: var(--glass-border-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4), 0 0 16px var(--accent-2-glow);
+    }
+
+    .team-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      min-width: 190px;
+    }
+
+    .team-name span {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .achv-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .achv {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      background: rgba(255, 176, 32, 0.08);
+      border: 1px solid var(--glass-border-amber);
+      padding: 5px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      backdrop-filter: blur(6px);
+    }
+
+    /* ============================= SHOP ============================= */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 26px;
+    }
+
+    .item-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all .25s ease;
+    }
+
+    .item-card:hover {
+      border-color: var(--glass-border-accent);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-2-glow);
+    }
+
+    .item-thumb {
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, rgba(35, 48, 72, 0.6) 0%, rgba(14, 20, 32, 0.8) 100%);
+      border-bottom: 1px solid var(--glass-border-subtle);
+      font-size: 2.2rem;
+      color: var(--accent-2);
+      text-shadow: 0 0 16px var(--accent-2-glow);
+    }
+
+    .item-body {
+      padding: 20px;
+    }
+
+    .item-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .item-body .spec {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .item-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .rate {
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .rate small {
+      color: var(--text-dim);
+      font-weight: 400;
+      font-size: 0.72rem;
+    }
+
+    .stock {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .stock.in {
+      color: var(--accent-2);
+      background: rgba(0, 217, 192, 0.1);
+      border: 1px solid var(--glass-border-accent);
+      box-shadow: 0 0 10px var(--accent-2-glow);
+    }
+
+    .stock.low {
+      color: var(--danger);
+      background: rgba(255, 90, 95, 0.1);
+      border: 1px solid rgba(255, 90, 95, 0.4);
+      box-shadow: 0 0 10px var(--danger-glow);
+    }
+
+    /* ============================= FORM PANELS & GLASS CONTAINERS ============================= */
+    .panel-center {
+      display: flex;
+      justify-content: center;
+    }
+
+    .panel {
+      width: 100%;
+      max-width: 460px;
+      background: var(--glass-panel);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow-lg), var(--glass-inset);
+      padding: 44px 40px;
+      border-radius: var(--radius);
+      position: relative;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 40px;
+      right: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      box-shadow: 0 0 14px var(--accent);
+    }
+
+    .panel h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+    }
+
+    .panel .desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 28px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .field input,
+    .mgr-form select,
+    .mgr-form textarea {
+      width: 100%;
+      background: rgba(8, 12, 18, 0.55);
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      transition: all .2s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+    }
+
+    .field input:focus,
+    .mgr-form select:focus,
+    .mgr-form textarea:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 14px var(--accent-2-glow), inset 0 1px 2px rgba(0, 0, 0, 0.4);
+      outline: none;
+    }
+
+    .field .hint {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+
+    .otp-boxes {
+      display: flex;
+      gap: 8px;
+    }
+
+    .otp-boxes input {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      letter-spacing: 0.05em;
+      padding: 12px 0;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .status-line {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      display: none;
+      backdrop-filter: blur(10px);
+    }
+
+    .status-line.show {
+      display: block;
+    }
+
+    .status-line.ok {
+      background: rgba(0, 217, 192, 0.12);
+      color: var(--accent-2);
+      border: 1px solid var(--glass-border-accent);
+      box-shadow: 0 0 16px var(--accent-2-glow);
+    }
+
+    .status-line.err {
+      background: rgba(255, 90, 95, 0.12);
+      color: var(--danger);
+      border: 1px solid rgba(255, 90, 95, 0.4);
+      box-shadow: 0 0 16px var(--danger-glow);
+    }
+
+    .mini-note {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-top: 22px;
+      line-height: 1.6;
+      border-top: 1px dashed var(--glass-border);
+      padding-top: 16px;
+    }
+
+    .result-card {
+      border: 1px solid var(--glass-border-accent);
+      background: rgba(0, 217, 192, 0.08);
+      backdrop-filter: blur(14px);
+      padding: 22px 24px;
+      margin-top: 22px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 0 24px var(--accent-2-glow);
+    }
+
+    .result-card.invalid {
+      border-color: rgba(255, 90, 95, 0.4);
+      background: rgba(255, 90, 95, 0.08);
+      box-shadow: 0 0 24px var(--danger-glow);
+    }
+
+    .result-card .row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--glass-border-subtle);
+    }
+
+    .result-card .row:last-child {
+      border-bottom: none;
+    }
+
+    .result-card .row span:first-child {
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .admin-dash {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .admin-card {
+      background: rgba(14, 20, 32, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--glass-inset);
+    }
+
+    .admin-card .n {
+      font-family: var(--font-mono);
+      font-size: 1.35rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .admin-card .l {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ============================= ADMIN MANAGER ============================= */
+    .admin-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 26px 0 22px;
+      border-bottom: 1px solid var(--glass-border-subtle);
+      padding-bottom: 0;
+    }
+
+    .admin-tab-btn {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
+      padding: 10px 14px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all .2s;
+    }
+
+    .admin-tab-btn:hover {
+      color: var(--text);
+    }
+
+    .admin-tab-btn.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .admin-tab-panel {
+      display: none;
+    }
+
+    .admin-tab-panel.active {
+      display: block;
+    }
+
+    .mgr-block {
+      margin-bottom: 34px;
+    }
+
+    .mgr-block-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mgr-block-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--glass-border), transparent);
+    }
+
+    .mgr-form {
+      background: rgba(14, 20, 32, 0.45);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+      align-items: end;
+      box-shadow: var(--glass-inset);
+    }
+
+    .mgr-form .field {
+      margin-bottom: 0;
+    }
+
+    .mgr-form .field.wide {
+      grid-column: 1/-1;
+    }
+
+    .mgr-form textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .mgr-form-actions {
+      grid-column: 1/-1;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mgr-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mgr-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      background: rgba(16, 22, 34, 0.55);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border-subtle);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      transition: all .2s;
+    }
+
+    .mgr-row:hover {
+      border-color: var(--glass-border);
+      background: rgba(22, 30, 48, 0.65);
+    }
+
+    .mgr-row .info strong {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.92rem;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .mgr-row .info span.meta {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .mgr-row .actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-xs {
+      font-size: 0.68rem;
+      padding: 6px 11px;
+    }
+
+    .mgr-empty {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+      padding: 14px 0;
+    }
+
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+    }
+
+    .badge.pending {
+      color: var(--accent);
+      background: rgba(255, 176, 32, 0.1);
+      border: 1px solid var(--glass-border-amber);
+    }
+
+    .badge.accepted {
+      color: var(--accent-2);
+      background: rgba(0, 217, 192, 0.1);
+      border: 1px solid var(--glass-border-accent);
+    }
+
+    .badge.rejected {
+      color: var(--danger);
+      background: rgba(255, 90, 95, 0.1);
+      border: 1px solid rgba(255, 90, 95, 0.4);
+    }
+
+    /* ============================= MODAL ============================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 11, 0.7);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 440px;
+      background: var(--glass-panel);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow-lg), var(--glass-inset);
+      padding: 34px 30px 28px;
+      border-radius: var(--radius);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.3rem;
+      transition: color .2s;
+    }
+
+    .modal-close:hover {
+      color: var(--text);
+    }
+
+    .modal-box h3 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+    }
+
+    /* ============================= TOAST ============================= */
+    #toast-wrap {
+      position: fixed;
+      bottom: 26px;
+      right: 26px;
+      z-index: 3000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: rgba(22, 30, 46, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border-accent);
+      color: var(--text);
+      padding: 14px 20px;
+      border-radius: var(--radius-sm);
+      min-width: 250px;
+      box-shadow: var(--glass-shadow-lg), 0 0 20px var(--accent-2-glow);
+      animation: toastIn .3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ============================= FOOTER ============================= */
+    footer {
+      border-top: 1px solid var(--glass-border-subtle);
+      background: rgba(6, 9, 14, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 70px 0 34px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand {
+      max-width: 320px;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .footer-col h5 {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      transition: all .2s;
+    }
+
+    .footer-col a:hover {
+      color: var(--accent-2);
+      transform: translateX(3px);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-top: 1px solid var(--glass-border-subtle);
+      padding-top: 22px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    /* ============================= RESPONSIVE ============================= */
+    .mobile-account-links {
+      display: none;
+    }
+
+    @media (max-width:900px) {
+      nav.primary-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-side .btn,
+      .nav-account-divider {
+        display: none;
+      }
+
+      .mobile-account-links {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin-top: 10px;
+        padding-top: 16px;
+        border-top: 1px solid var(--glass-border-subtle);
+      }
+
+      .mobile-account-links button {
+        color: var(--accent-2);
+      }
+
+      .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .admin-dash {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      section.page {
+        padding: 118px 0 90px;
+      }
+    }
+
+    nav.primary-links.mobile-open {
+      display: flex;
+      position: absolute;
+      top: 76px;
+      left: 0;
+      right: 0;
+      max-height: calc(100vh - 76px);
+      overflow-y: auto;
+      background: rgba(10, 15, 24, 0.95);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      flex-direction: column;
+      border-bottom: 1px solid var(--glass-border);
+      padding: 10px 32px 24px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+    }
+
+    nav.primary-links.mobile-open button {
+      text-align: left;
+      padding: 14px 8px;
+      border-bottom: 1px solid var(--glass-border-subtle);
+      width: 100%;
+      border-radius: 0;
+    }
+
+    @media (max-width:640px) {
+
+      .container,
+      .nav-inner {
+        padding: 0 20px;
+      }
+
+      nav.primary-links.mobile-open {
+        padding: 10px 20px 24px;
+      }
+
+      .brand small {
+        display: none;
+      }
+
+      .brand-mark {
+        width: 28px;
+        height: 28px;
+      }
+
+      .hero {
+        padding: 56px 20px 90px;
+      }
+
+      section.page {
+        padding: 108px 0 80px;
+      }
+
+      .admin-dash {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width:480px) {
+
+      .container,
+      .nav-inner {
+        padding: 0 16px;
+      }
+
+      .hero-title {
+        font-size: clamp(2.15rem, 9.5vw, 5.2rem);
+      }
+
+      .hero-stats,
+      .admin-dash {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .events-grid,
+      .shop-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .member-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+
+      .panel {
+        padding: 32px 22px;
+      }
+
+      .team-row {
+        padding: 18px 20px;
+      }
+
+      .achv-list {
+        justify-content: flex-start;
+      }
+
+      .admin-dash {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================= BACKGROUND REFRACTION ORBS ============================= -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- ============================= NAV ============================= -->
+  <header id="site-nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <span class="brand-text"><img class="brand-mark" style="width: 78px;" src="./assests/TSC LOGO WHITE.png"
+            alt="logo"><small>TECHNICAL SUB-COUNCIL HBTU-K</small></span>
+      </div>
+      <nav class="primary-links" id="primary-links">
+        <button data-target="home" class="active">Home</button>
+        <button data-target="events">Past Events</button>
+        <button data-target="achievements">Achievements</button>
+        <button data-target="blackout">Team &amp; Council</button>
+        <button data-target="shop">Shop</button>
+        <button data-target="verify">Verify Certificate</button>
+        <div class="mobile-account-links">
+          <button data-target="login">Login</button>
+          <button data-target="admin">Admin Access</button>
+        </div>
+      </nav>
+      <div class="nav-side">
+        <button class="btn" data-target="login">Login</button>
+        <div class="nav-account-divider"></div>
+        <button class="btn btn-ghost-sm" data-target="admin">Admin</button>
+        <button class="nav-toggle" id="navToggle"
+          aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================= HOME / HERO ============================= -->
+  <section id="home" class="route">
+    <div class="hero">
+      <svg class="circuit-bg" viewBox="0 0 1180 500" preserveAspectRatio="none">
+        <path d="M0 80 H260 V180 H520 V60 H900 V220 H1180" />
+        <path d="M0 380 H180 V300 H460 V420 H760 V280 H1180" />
+        <path d="M120 0 V140 H340 V500" />
+        <path d="M980 0 V160 H700 V500" />
+        <circle class="pulse-dot" cx="260" cy="80" r="3" />
+        <circle class="pulse-dot" cx="520" cy="180" r="3" />
+        <circle class="pulse-dot" cx="760" cy="280" r="3" />
+        <circle class="pulse-dot" cx="340" cy="140" r="3" />
+      </svg>
+      <div class="boot" id="bootText"></div>
+      <h1 class="hero-title" id="heroTitle">TECHNICAL<br><span class="accent-word">SUB-COUNCIL</span></h1>
+      <p class="hero-tagline" id="heroTagline">The engineering wing of student council — running the college's technical
+        events, competitive teams, equipment shop, and certification records from one place.</p>
+      <div class="hero-cta" id="heroCta">
+        <button class="btn btn-solid" data-target="events">Explore Past Events</button>
+        <button class="btn" data-target="blackout">Meet The Council →</button>
+      </div>
+      <div class="hero-stats" id="heroStats">
+        <div class="stat">
+          <div class="num">46</div>
+          <div class="label">Events hosted</div>
+        </div>
+        <div class="stat">
+          <div class="num">120+</div>
+          <div class="label">Active members</div>
+        </div>
+        <div class="stat">
+          <div class="num">6</div>
+          <div class="label">Domains</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="heroPodiumsStat">18</div>
+          <div class="label">Team podiums, 2025-26</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================= SECRETARIES / LEADERSHIP SECTION ============================= -->
+    <div class="home-section">
+      <div class="container">
+        <div class="eyebrow">Council Stewards</div>
+        <h2 class="section-title">Leadership</h2>
+        <p class="section-sub">Honoring current conveners and secretaries who steered the technical
+          community at HBTU.</p>
+
+        <div class="secretaries-group-label">Convenor</div>
+        <div class="secretaries-grid" style="display: flex; justify-content: space-around;" id="currentSecretariesGrid">
+        </div>
+
+        <div class="secretaries-group-label">Secretaries</div>
+        <div class="secretaries-grid" id="pastSecretariesGrid"></div>
+      </div>
+    </div>
+
+    <!-- Council Achievements Section -->
+    <div class="home-section">
+      <div class="container">
+        <div class="eyebrow">Highlights &amp; Trophies</div>
+        <h2 class="section-title">Blackout Botz Achievements</h2>
+        <p class="section-sub">A showcase of student excellence, podium finishes, and competitive engineering
+          breakthroughs across national arenas.</p>
+
+        <div class="home-achievements-grid" id="homeAchievementsGrid"></div>
+
+        <div class="home-achv-action">
+          <button class="btn btn-solid" data-target="achievements">View All Achievements &amp; Podiums →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pillars / Council Initiatives Section -->
+    <div class="home-section">
+      <div class="container">
+        <div class="eyebrow">Council Ecosystem</div>
+        <h2 class="section-title">Blackout Botz</h2>
+        <p class="section-sub" style="color: #ffb020; max-width: 800px;"><b>Blackout, the competitive robotics team of HBTU's Technical Sub Council, founded by Secretary Krishan Murari Gupta.</b></p>
+
+        <p class="section-sub" style="max-width: 800px;">A passionate team of engineering students dedicated to innovation in aeromodelling and
+          robotics. Built on a strong foundation of teamwork, creativity, and hands-on learning, the team continuously
+          explores cutting-edge technologies to design and develop efficient, high-performance solutions.</p>
+
+
+
+        <div class="home-pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon">⚡</div>
+            <h4>Hands-on Hackathons</h4>
+            <p>Organizing 24 to 48-hour hardware and software sprints solving real campus problems.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon">🛠</div>
+            <h4>Equipment Rental Bay</h4>
+            <p>Direct student access to dev kits, sensors, microcontrollers, and precision lab tools.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon">🏆</div>
+            <h4>Competitive Rosters</h4>
+            <p>Backing specialized student teams representing the university in national championships.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon">🔒</div>
+            <h4>Tamper-proof Records</h4>
+            <p>Instant digital certificate verification protecting student credentials and awards.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= ACHIEVEMENTS PAGE ============================= -->
+  <section id="achievements" class="route page hidden">
+    <div class="container">
+      <div class="eyebrow">Hall of Fame</div>
+      <h2 class="section-title">Achievements &amp; Podiums</h2>
+      <p class="section-sub">A comprehensive directory of national titles, collegiate trophies, and hackathon wins
+        earned by HBTU student engineers.</p>
+
+      <div class="achievements-full-grid" id="fullAchievementsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================= PAST EVENTS ============================= -->
+  <section id="events" class="route page hidden">
+    <div class="container">
+      <div class="eyebrow">Archive</div>
+      <h2 class="section-title">Past Events</h2>
+      <p class="section-sub">A running log of everything the council has organised — hackathons, workshops, and
+        inter-college meets, sorted by domain.</p>
+
+      <div class="filter-row" id="filterRow">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="robotics">Robotics</button>
+        <button class="filter-pill" data-filter="coding">Coding</button>
+        <button class="filter-pill" data-filter="ai">AI/ML</button>
+        <button class="filter-pill" data-filter="electronics">Electronics</button>
+        <button class="filter-pill" data-filter="iot">IoT</button>
+      </div>
+
+      <div class="events-grid" id="eventsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================= BLACKOUT / TEAM ============================= -->
+  <section id="blackout" class="route page hidden">
+    <div class="container">
+      <div class="blackout-head">
+        <div class="eyebrow" style="justify-content:center;">The people behind the council</div>
+        <div class="blackout-title">Meet The Team</div>
+        <div class="blackout-sub">Meet the leadership, core team, and competitive rosters</div>
+      </div>
+
+      <div class="blackout-group-title">Position Holders</div>
+      <div class="member-grid" id="leadsGrid"></div>
+
+      <div class="blackout-group-title">Core Team</div>
+      <div class="member-grid" id="coreGrid"></div>
+
+      <div class="blackout-group-title">Competitive Teams &amp; Achievements</div>
+      <div class="team-list" id="teamList"></div>
+    </div>
+  </section>
+
+  <!-- ============================= SHOP ============================= -->
+  <section id="shop" class="route page hidden">
+    <div class="container">
+      <div class="eyebrow">Equipment Bay</div>
+      <h2 class="section-title">Shop — Rent Gear</h2>
+      <p class="section-sub">Council-owned kits and tools available for members to rent by the day for projects, events,
+        and competitions.</p>
+      <div class="shop-grid" id="shopGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================= CERTIFICATE VERIFICATION ============================= -->
+  <section id="verify" class="route page alt hidden">
+    <div class="container">
+      <div class="eyebrow">Records</div>
+      <h2 class="section-title">Certificate Verification</h2>
+      <p class="section-sub">Enter the certificate ID printed on your document to confirm it was issued by the Technical
+        Sub-Council.</p>
+      <div class="panel-center">
+        <div class="panel">
+          <h3>Verify a certificate</h3>
+          <p class="desc">Certificate IDs look like <strong>TSC-2025-XXXX</strong>.</p>
+          <div class="field">
+            <label for="certInput">Certificate ID</label>
+            <input id="certInput" type="text" placeholder="TSC-2025-0417" autocomplete="off">
+          </div>
+          <button class="btn btn-solid btn-block" id="verifyBtn">Verify</button>
+          <div id="verifyResult"></div>
+          <div class="mini-note">Demo dataset — try TSC-2025-0417, TSC-2025-0982, or TSC-2024-1130. Any other ID will
+            return "not found." A production version checks this against the council's issuing database.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= LOGIN ============================= -->
+  <section id="login" class="route page hidden">
+    <div class="container">
+      <div class="eyebrow">Member Access</div>
+      <h2 class="section-title">Login</h2>
+      <p class="section-sub">Sign in with your college email — no password, just a one-time code.</p>
+      <div class="panel-center">
+        <div class="panel">
+          <div class="step active" id="loginStep1">
+            <h3>Enter your email</h3>
+            <p class="desc">We'll send a 6-digit code to verify it's you. Only <strong
+                style="color:var(--accent-2)">@hbtu.ac.in</strong> college email addresses can sign in — this is also
+              what unlocks equipment renting in the Shop.</p>
+            <div class="field">
+              <label for="loginEmail">Email address</label>
+              <input id="loginEmail" type="email" placeholder="you@hbtu.ac.in" autocomplete="off">
+              <div class="hint">Must be a valid @hbtu.ac.in college email.</div>
+            </div>
+            <button class="btn btn-solid btn-block" id="sendOtpBtn">Send OTP</button>
+            <div class="status-line" id="loginStatus1"></div>
+          </div>
+
+          <div class="step" id="loginStep2">
+            <h3>Enter the code</h3>
+            <p class="desc" id="otpSentTo">Code sent to your email.</p>
+            <div class="field">
+              <label>6-digit OTP</label>
+              <div class="otp-boxes">
+                <input maxlength="1" inputmode="numeric">
+                <input maxlength="1" inputmode="numeric">
+                <input maxlength="1" inputmode="numeric">
+                <input maxlength="1" inputmode="numeric">
+                <input maxlength="1" inputmode="numeric">
+                <input maxlength="1" inputmode="numeric">
+              </div>
+            </div>
+            <button class="btn btn-solid btn-block" id="verifyOtpBtn">Verify &amp; Log In</button>
+            <button class="btn btn-ghost-sm btn-block" style="margin-top:10px;" id="resendOtpBtn">Resend code</button>
+            <div class="status-line" id="loginStatus2"></div>
+          </div>
+
+          <div class="step" id="loginStep3">
+            <h3>You're in ✓</h3>
+            <p class="desc" id="welcomeMsg">Logged in successfully.</p>
+            <p class="hint" style="margin-bottom:18px;">You can now rent equipment from the Shop.</p>
+            <button class="btn btn-block" id="logoutBtn">Log out</button>
+          </div>
+
+          <div class="mini-note">Demo only: OTP is generated in your browser and shown here instead of emailed. Wire
+            this up to a real mail/SMS service on the backend before going live.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= ADMIN ============================= -->
+  <section id="admin" class="route page alt hidden">
+    <div class="container">
+      <div class="eyebrow">Restricted</div>
+      <h2 class="section-title">Admin Access</h2>
+      <p class="section-sub">For council coordinators managing events, achievements, members, and shop inventory.</p>
+      <div class="panel-center">
+        <div class="panel" id="adminPanel">
+          <div id="adminLoginBlock">
+            <h3>Admin sign-in</h3>
+            <p class="desc">Use the demo credentials below to preview the dashboard.</p>
+            <div class="field">
+              <label for="adminUser">Username</label>
+              <input id="adminUser" type="text" placeholder="admin" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="adminPass">Password</label>
+              <input id="adminPass" type="password" placeholder="••••••••" autocomplete="off">
+            </div>
+            <button class="btn btn-solid btn-block" id="adminLoginBtn">Sign in</button>
+            <div class="status-line" id="adminStatus"></div>
+            <div class="mini-note">Demo credentials — username: <strong style="color:var(--accent-2)">admin</strong>,
+              password: <strong style="color:var(--accent-2)">tsc-admin</strong>. Replace this with real authentication
+              (and 2FA) before deployment.</div>
+          </div>
+          <div id="adminDashBlock" class="hidden">
+            <h3>Council dashboard</h3>
+            <p class="desc">Signed in as admin.</p>
+            <div class="admin-dash">
+              <div class="admin-card">
+                <div class="n" id="statEvents">0</div>
+                <div class="l">Manage events</div>
+              </div>
+              <div class="admin-card">
+                <div class="n" id="statAchv">0</div>
+                <div class="l">Achievements</div>
+              </div>
+              <div class="admin-card">
+                <div class="n" id="statMembers">0</div>
+                <div class="l">Manage members</div>
+              </div>
+              <div class="admin-card">
+                <div class="n" id="statRentals">0</div>
+                <div class="l">Rental requests</div>
+              </div>
+              <div class="admin-card">
+                <div class="n">312</div>
+                <div class="l">Certificates issued</div>
+              </div>
+              <div class="admin-card">
+                <div class="n" id="statShop">0</div>
+                <div class="l">Shop items</div>
+              </div>
+            </div>
+
+            <div class="admin-tabs" id="adminTabs">
+              <button class="admin-tab-btn active" data-admintab="events">Past Events</button>
+              <button class="admin-tab-btn" data-admintab="achievements">Achievements</button>
+              <button class="admin-tab-btn" data-admintab="blackout">Team &amp; Council</button>
+              <button class="admin-tab-btn" data-admintab="shop">Shop</button>
+              <button class="admin-tab-btn" data-admintab="rentals">Rental Requests</button>
+            </div>
+
+            <!-- EVENTS MANAGER -->
+            <div class="admin-tab-panel active" id="adminPanelEvents">
+              <div class="mgr-block">
+                <div class="mgr-block-title">Add / edit event</div>
+                <div class="mgr-form" id="eventForm">
+                  <div class="field wide"><label>Event name</label><input id="evName" type="text"
+                      placeholder="e.g. HackNorth 2026"></div>
+                  <div class="field"><label>Date</label><input id="evDate" type="text" placeholder="14 Nov 2025"></div>
+                  <div class="field"><label>Domain</label>
+                    <select id="evDomain">
+                      <option value="robotics">Robotics</option>
+                      <option value="coding">Coding</option>
+                      <option value="ai">AI/ML</option>
+                      <option value="electronics">Electronics</option>
+                      <option value="iot">IoT</option>
+                    </select>
+                  </div>
+                  <div class="field"><label>Tag label</label><input id="evTag" type="text" placeholder="Robotics"></div>
+                  <div class="field wide"><label>Description</label><textarea id="evDesc"
+                      placeholder="Short event description"></textarea></div>
+                  <div class="mgr-form-actions">
+                    <button class="btn btn-solid" id="evSaveBtn">Add event</button>
+                    <button class="btn btn-ghost-sm hidden" id="evCancelBtn">Cancel edit</button>
+                  </div>
+                </div>
+                <div class="mgr-list" id="eventsMgrList"></div>
+              </div>
+            </div>
+
+            <!-- ACHIEVEMENTS MANAGER -->
+            <div class="admin-tab-panel" id="adminPanelAchievements">
+              <div class="mgr-block">
+                <div class="mgr-block-title">Add / edit achievement</div>
+                <div class="mgr-form" id="achvForm">
+                  <div class="field wide"><label>Title / Competition Name</label><input id="achvTitle" type="text"
+                      placeholder="e.g. Smart India Hackathon (SIH)"></div>
+                  <div class="field"><label>Badge / Award Label</label><input id="achvBadge" type="text"
+                      placeholder="e.g. National Winner · 2025"></div>
+                  <div class="field"><label>Display Priority</label>
+                    <select id="achvPriority">
+                      <option value="normal">Standard Archive</option>
+                      <option value="featured">Featured (Showcase on Home)</option>
+                    </select>
+                  </div>
+                  <div class="field wide"><label>Description</label><textarea id="achvDesc"
+                      placeholder="Details, team name, position, and project brief"></textarea></div>
+                  <div class="mgr-form-actions">
+                    <button class="btn btn-solid" id="achvSaveBtn">Add achievement</button>
+                    <button class="btn btn-ghost-sm hidden" id="achvCancelBtn">Cancel edit</button>
+                  </div>
+                </div>
+                <div class="mgr-list" id="achvMgrList"></div>
+              </div>
+            </div>
+
+            <!-- BLACKOUT MANAGER -->
+            <div class="admin-tab-panel" id="adminPanelBlackout">
+              <div class="mgr-block">
+                <div class="mgr-block-title">Position holders</div>
+                <div class="mgr-form" id="leadForm">
+                  <div class="field"><label>Name</label><input id="leadName" type="text" placeholder="Full name"></div>
+                  <div class="field"><label>Role</label><input id="leadRole" type="text" placeholder="Chairperson">
+                  </div>
+                  <div class="field"><label>Branch</label><input id="leadDomain" type="text"
+                      placeholder="Robotics & Automation"></div>
+                  <div class="mgr-form-actions">
+                    <button class="btn btn-solid" id="leadSaveBtn">Add position holder</button>
+                    <button class="btn btn-ghost-sm hidden" id="leadCancelBtn">Cancel edit</button>
+                  </div>
+                </div>
+                <div class="mgr-list" id="leadsMgrList"></div>
+              </div>
+
+              <div class="mgr-block">
+                <div class="mgr-block-title">Core team</div>
+                <div class="mgr-form" id="coreForm">
+                  <div class="field"><label>Name</label><input id="coreName" type="text" placeholder="Full name"></div>
+                  <div class="field"><label>Role</label><input id="coreRole" type="text" placeholder="Events Lead">
+                  </div>
+                  <div class="field"><label>Domain</label><input id="coreDomain" type="text" placeholder="Coding"></div>
+                  <div class="mgr-form-actions">
+                    <button class="btn btn-solid" id="coreSaveBtn">Add core member</button>
+                    <button class="btn btn-ghost-sm hidden" id="coreCancelBtn">Cancel edit</button>
+                  </div>
+                </div>
+                <div class="mgr-list" id="coreMgrList"></div>
+              </div>
+
+              <div class="mgr-block">
+                <div class="mgr-block-title">Competitive teams</div>
+                <div class="mgr-form" id="teamForm">
+                  <div class="field"><label>Team name</label><input id="teamName" type="text" placeholder="Team Vortex">
+                  </div>
+                  <div class="field"><label>Tag</label><input id="teamTag" type="text" placeholder="Robotics"></div>
+                  <div class="field wide"><label>Achievements (comma-separated)</label><input id="teamAchv" type="text"
+                      placeholder="1st — Smart India Hackathon 2025, 2nd — Robowars Nationals 2024"></div>
+                  <div class="mgr-form-actions">
+                    <button class="btn btn-solid" id="teamSaveBtn">Add team</button>
+                    <button class="btn btn-ghost-sm hidden" id="teamCancelBtn">Cancel edit</button>
+                  </div>
+                </div>
+                <div class="mgr-list" id="teamsMgrList"></div>
+              </div>
+            </div>
+
+            <!-- SHOP MANAGER -->
+            <div class="admin-tab-panel" id="adminPanelShop">
+              <div class="mgr-block">
+                <div class="mgr-block-title">Add / edit shop item</div>
+                <div class="mgr-form" id="shopForm">
+                  <div class="field wide"><label>Item name</label><input id="shName" type="text"
+                      placeholder="Arduino Uno Starter Kit"></div>
+                  <div class="field wide"><label>Spec</label><input id="shSpec" type="text"
+                      placeholder="Board + breadboard + 40 jumper wires"></div>
+                  <div class="field"><label>Rate</label><input id="shRate" type="text" placeholder="₹40/day"></div>
+                  <div class="field"><label>Stock</label>
+                    <select id="shStock">
+                      <option value="in">In stock</option>
+                      <option value="low">Low stock</option>
+                    </select>
+                  </div>
+                  <div class="mgr-form-actions">
+                    <button class="btn btn-solid" id="shSaveBtn">Add item</button>
+                    <button class="btn btn-ghost-sm hidden" id="shCancelBtn">Cancel edit</button>
+                  </div>
+                </div>
+                <div class="mgr-list" id="shopMgrList"></div>
+              </div>
+            </div>
+
+            <!-- RENTAL REQUESTS MANAGER -->
+            <div class="admin-tab-panel" id="adminPanelRentals">
+              <div class="mgr-block">
+                <div class="mgr-block-title">Rental requests</div>
+                <div class="mgr-list" id="rentalsMgrList"></div>
+              </div>
+            </div>
+
+            <button class="btn btn-danger btn-block" style="margin-top:22px;" id="adminLogoutBtn">Sign out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= RENT MODAL ============================= -->
+  <div class="modal-overlay" id="rentModal">
+    <div class="modal-box">
+      <button class="modal-close" id="rentModalClose">✕</button>
+      <h3 id="rentModalTitle">Rent item</h3>
+      <div class="field">
+        <label for="rentName">Full name</label>
+        <input id="rentName" type="text" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label for="rentEmail">College email</label>
+        <input id="rentEmail" type="email" placeholder="you@hbtu.ac.in" readonly>
+        <div class="hint">Locked to your logged-in college email.</div>
+      </div>
+      <div class="field">
+        <label for="rentDays">Number of days</label>
+        <input id="rentDays" type="number" min="1" value="1">
+      </div>
+      <button class="btn btn-solid btn-block" id="rentConfirmBtn">Confirm request</button>
+    </div>
+  </div>
+
+  <div id="toast-wrap"></div>
+
+  <!-- ============================= FOOTER ============================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <span class="brand-text"><img class="brand-mark" style="width: 78px;" src="./assests/TSC LOGO WHITE.png"
+                alt="logo"><small>TECHNICAL SUB-COUNCIL</small></span>
+          </div>
+          <p>The technical arm of the student council — events, teams, equipment, and certification, run by students for
+            students.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h5>Explore</h5>
+            <a data-target="events">Past Events</a>
+            <a data-target="achievements">Achievements</a>
+            <a data-target="blackout">Team &amp; Council</a>
+            <a data-target="shop">Shop</a>
+          </div>
+          <div class="footer-col">
+            <h5>Account</h5>
+            <a data-target="login">Login</a>
+            <a data-target="admin">Admin Access</a>
+            <a data-target="verify">Verify Certificate</a>
+          </div>
+          <div class="footer-col">
+            <h5>Contact</h5>
+            <a href="mailto:technicalsubcouncil@hbtu.ac.in">technicalsubcouncil@hbtu.ac.in</a>
+            <a href="https://www.instagram.com/blackoutbotz?stkn=MXdjNnZnOXE0ZjdpYw%3D%3D&utm_source=qr">Instagram</a>
+            <a href="https://www.linkedin.com/in/krishanmurarigupta?utm_source=share_via&utm_content=profile&utm_medium=member_ios">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Technical Sub-Council. All rights reserved.</span>
+        <span>Built by the council, for the council.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================= API CONFIG & HELPERS ============================= */
+    const API_BASE = 'https://tsc-back-end.vercel.app/api';
+    // const API_BASE = 'http://localhost:5000/api';
+
+    async function apiRequest(endpoint, method = 'GET', body = null) {
+      const options = {
+        method,
+        headers: { 'Content-Type': 'application/json' }
+      };
+      if (body) options.body = JSON.stringify(body);
+
+      try {
+        const res = await fetch(`${API_BASE}${endpoint}`, options);
+        return await res.json();
+      } catch (err) {
+        console.error(`API Error on [${method}] ${endpoint}:`, err);
+        toast('Network error communicating with server.');
+        return { success: false, error: err.message };
+      }
+    }
+
+    function initials(name) {
+      return name ? name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : '??';
+    }
+
+    /* ============================= APPLICATION STATE ============================= */
+    let EVENTS = [];
+    let ACHIEVEMENTS = [];
+    let SECRETARIES = [];
+    let LEADS = [];
+    let CORE = [];
+    let TEAMS = [];
+    let SHOP_ITEMS = [];
+    let RENTAL_REQUESTS = [];
+
+    let session = JSON.parse(sessionStorage.getItem('tsc_session') || '{"loggedIn":false,"email":""}');
+    function saveSession() { sessionStorage.setItem('tsc_session', JSON.stringify(session)); }
+
+    /* ============================= ROUTING ============================= */
+    const routes = document.querySelectorAll('.route');
+    const navButtons = document.querySelectorAll('[data-target]');
+    const primaryLinks = document.getElementById('primary-links');
+    const navToggle = document.getElementById('navToggle');
+
+    function goTo(id) {
+      routes.forEach(r => r.classList.toggle('hidden', r.id !== id));
+      document.querySelectorAll('nav.primary-links button').forEach(b => {
+        b.classList.toggle('active', b.dataset.target === id);
+      });
+      window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+      primaryLinks.classList.remove('mobile-open');
+      navToggle.classList.remove('open');
+      if (id === 'home') initHero();
+    }
+
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        goTo(btn.dataset.target);
+      });
+    });
+
+    navToggle.addEventListener('click', () => {
+      primaryLinks.classList.toggle('mobile-open');
+      navToggle.classList.toggle('open');
+    });
+
+    /* ============================= TOAST ============================= */
+    function toast(msg, ms = 3200) {
+      const wrap = document.getElementById('toast-wrap');
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = msg;
+      wrap.appendChild(t);
+      setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transition = 'opacity .3s, transform .3s';
+        t.style.transform = 'translateY(10px) scale(0.95)';
+        setTimeout(() => t.remove(), 300);
+      }, ms);
+    }
+
+    /* ============================= HERO BOOT SEQUENCE ============================= */
+    let heroBooted = false;
+    function initHero() {
+      if (heroBooted) return;
+      heroBooted = true;
+      const bootLines = [
+        '> booting TSC-OS v2.6 ...',
+        '> loading modules: events, council, achievements, shop, verify ...',
+        '> establishing secure session ...',
+        '> welcome, visitor.'
+      ];
+      const bootEl = document.getElementById('bootText');
+      let li = 0, ci = 0, out = '';
+      function typeLine() {
+        if (li >= bootLines.length) {
+          bootEl.innerHTML = out;
+          revealHero();
+          return;
+        }
+        const line = bootLines[li];
+        if (ci <= line.length) {
+          bootEl.innerHTML = out + line.slice(0, ci) + '<span class="cursor"></span>';
+          ci++;
+          setTimeout(typeLine, 16);
+        } else {
+          out += line + '\n';
+          li++; ci = 0;
+          setTimeout(typeLine, 220);
+        }
+      }
+      typeLine();
+    }
+
+    function revealHero() {
+      ['heroTitle', 'heroTagline', 'heroCta', 'heroStats'].forEach((id, i) => {
+        setTimeout(() => document.getElementById(id).classList.add('reveal'), i * 120);
+      });
+    }
+
+    /* ============================= DATA RENDERING ============================= */
+    function renderAchievements() {
+      const homeGrid = document.getElementById('homeAchievementsGrid');
+      const fullGrid = document.getElementById('fullAchievementsGrid');
+      const featured = ACHIEVEMENTS.filter(a => a.featured);
+      const forHome = featured.length > 0 ? featured.slice(0, 4) : ACHIEVEMENTS.slice(0, 4);
+
+      const cardHtml = a => `
+    <div class="achv-card">
+      <span class="achv-card-badge">${a.badge || ''}</span>
+      <h4>${a.title || ''}</h4>
+      <p>${a.desc || ''}</p>
+    </div>`;
+
+      if (homeGrid) homeGrid.innerHTML = forHome.map(cardHtml).join('');
+      if (fullGrid) fullGrid.innerHTML = ACHIEVEMENTS.map(cardHtml).join('');
+    }
+
+    function renderSecretaries() {
+      const currentGrid = document.getElementById('currentSecretariesGrid');
+      const pastGrid = document.getElementById('pastSecretariesGrid');
+
+      const cardHtml = s => `
+    <div class="secretary-card" style="width: 80%; max-width: 500px;">
+      <div class="sec-img-wrap">
+        ${s.photo
+          ? `<img src="${s.photo}" alt="${s.name}" style="max-width: 50%;" onerror="this.parentElement.innerHTML='<div class=\\'sec-fallback-avatar\\'>${initials(s.name)}</div>'">`
+          : `<div class="sec-fallback-avatar">${initials(s.name)}</div>`
+        }
+      </div>
+      <div class="sec-body">
+        <h4>${s.name}</h4>
+        <div class="sec-role">${s.role}</div>
+        <div class="sec-tenure">${s.tenure}</div>
+        ${s.connect ? `<a href="#"><div class="sec-role" style="font-size:0.75rem;margin-top:4px;">${s.connect}</div></a>` : ''}
+      </div>
+    </div>`;
+
+      if (currentGrid) currentGrid.innerHTML = SECRETARIES.filter(s => s.current).map(cardHtml).join('');
+      if (pastGrid) pastGrid.innerHTML = SECRETARIES.filter(s => !s.current).map(cardHtml).join('');
+    }
+
+    function renderEvents(filter) {
+      filter = filter || (document.querySelector('.filter-pill.active') ? document.querySelector('.filter-pill.active').dataset.filter : 'all');
+      const eventsGrid = document.getElementById('eventsGrid');
+      eventsGrid.innerHTML = '';
+
+      EVENTS.filter(ev => filter === 'all' || ev.domain === filter).forEach(ev => {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        card.innerHTML = `
+      <div class="event-thumb"><span class="tag">${ev.tag}</span></div>
+      <div class="event-body">
+        <div class="event-date">${ev.date}</div>
+        <h3>${ev.name}</h3>
+        <p>${ev.desc || ''}</p>
+        <a href="${ev.drive || '#'}" class="event-link" target="_blank">View more →</a>
+      </div>`;
+        eventsGrid.appendChild(card);
+      });
+    }
+
+    document.getElementById('filterRow').addEventListener('click', (e) => {
+      if (e.target.classList.contains('filter-pill')) {
+        document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        renderEvents(e.target.dataset.filter);
+      }
+    });
+
+    function renderMembers(arr, containerId) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = arr.map(m => `
+    <div class="member-card">
+      <div class="avatar">${initials(m.name)}</div>
+      <h4>${m.name}</h4>
+      <div class="role">${m.role}</div>
+      <div class="domain">${m.domain}</div>
+    </div>`).join('');
+    }
+
+    function renderBlackout() {
+      renderMembers(LEADS, 'leadsGrid');
+      renderMembers(CORE, 'coreGrid');
+      document.getElementById('teamList').innerHTML = TEAMS.map(t => `
+    <div class="team-row">
+      <div class="team-name">${t.name}<span>${t.tag}</span></div>
+      <div class="achv-list">${(t.achievements || []).map(a => `<span class="achv">${a}</span>`).join('')}</div>
+    </div>`).join('');
+    }
+
+    function renderShop() {
+      document.getElementById('shopGrid').innerHTML = SHOP_ITEMS.map(item => `
+    <div class="item-card">
+      <div class="item-thumb">⬡</div>
+      <div class="item-body">
+        <h3>${item.name}</h3>
+        <div class="spec">${item.spec}</div>
+        <div class="item-foot">
+          <div class="rate">${item.rate}</div>
+          <div class="stock ${item.stock}">${item.stock === 'in' ? 'In stock' : 'Low stock'}</div>
+        </div>
+        <button class="btn btn-solid btn-block" style="margin-top:14px;" data-id="${item.id}" data-item="${item.name}">Rent now</button>
+      </div>
+    </div>`).join('');
+    }
+
+    /* ============================= SHOP / RENTALS (ASYNC API) ============================= */
+    const rentModal = document.getElementById('rentModal');
+    let currentRentItem = '';
+
+    document.getElementById('shopGrid').addEventListener('click', (e) => {
+      if (e.target.dataset.item) {
+        if (!session.loggedIn) {
+          toast('Please log in with your college email to rent equipment.');
+          goTo('login');
+          return;
+        }
+        currentRentItem = e.target.dataset.item;
+        document.getElementById('rentModalTitle').textContent = `Rent — ${currentRentItem}`;
+        document.getElementById('rentEmail').value = session.email;
+        document.getElementById('rentName').value = '';
+        document.getElementById('rentDays').value = 1;
+        rentModal.classList.add('show');
+      }
+    });
+
+    document.getElementById('rentModalClose').addEventListener('click', () => rentModal.classList.remove('show'));
+    rentModal.addEventListener('click', (e) => { if (e.target === rentModal) rentModal.classList.remove('show'); });
+
+    document.getElementById('rentConfirmBtn').addEventListener('click', async () => {
+      if (!session.loggedIn) {
+        toast('Your session has ended — please log in again.');
+        rentModal.classList.remove('show');
+        goTo('login');
+        return;
+      }
+      const name = document.getElementById('rentName').value.trim();
+      const days = document.getElementById('rentDays').value || 1;
+      if (!name) { toast('Please enter your name.'); return; }
+
+      const newRental = {
+        item: currentRentItem,
+        name,
+        email: session.email,
+        days: Number(days),
+        status: 'pending',
+        requestedAt: new Date().toLocaleString()
+      };
+
+      const res = await apiRequest('/rentals', 'POST', newRental);
+      if (res.success) {
+        newRental.id = res.id;
+        RENTAL_REQUESTS.unshift(newRental);
+        rentModal.classList.remove('show');
+        toast(`Request sent for "${currentRentItem}". The council will confirm by email.`);
+        renderAdminRentals();
+        refreshAdminStats();
+      }
+    });
+
+    /* ============================= CERTIFICATE VERIFICATION (API) ============================= */
+    document.getElementById('verifyBtn').addEventListener('click', async () => {
+      const id = document.getElementById('certInput').value.trim().toUpperCase();
+      const box = document.getElementById('verifyResult');
+      if (!id) { toast('Enter a certificate ID first.'); return; }
+
+      const res = await apiRequest(`/verify-certificate/${encodeURIComponent(id)}`);
+      if (res.success && res.found) {
+        const cert = res.data;
+        box.innerHTML = `
+      <div class="result-card">
+        <div class="row"><span>STATUS</span><span style="color:var(--accent-2)">✓ Verified</span></div>
+        <div class="row"><span>NAME</span><span>${cert.name}</span></div>
+        <div class="row"><span>EVENT</span><span>${cert.event}</span></div>
+        <div class="row"><span>DATE</span><span>${cert.date}</span></div>
+        <div class="row"><span>AWARD</span><span>${cert.status}</span></div>
+      </div>`;
+      } else {
+        box.innerHTML = `
+      <div class="result-card invalid">
+        <div class="row"><span>STATUS</span><span style="color:var(--danger)">✕ Not found</span></div>
+        <div class="row"><span>ID CHECKED</span><span>${id}</span></div>
+      </div>`;
+      }
+    });
+
+    /* ============================= LOGIN ============================= */
+    const COLLEGE_EMAIL_DOMAIN = 'hbtu.ac.in';
+    function isCollegeEmail(email) {
+      const re = new RegExp('^[^\\s@]+@([a-z0-9-]+\\.)*' + COLLEGE_EMAIL_DOMAIN.replace('.', '\\.') + '$', 'i');
+      return re.test(email.trim());
+    }
+
+    let currentOtp = null;
+    let currentEmail = '';
+
+    function showLoginStep(n) {
+      [1, 2, 3].forEach(i => document.getElementById('loginStep' + i).classList.toggle('active', i === n));
+    }
+
+    document.getElementById('sendOtpBtn').addEventListener('click', () => {
+      const email = document.getElementById('loginEmail').value.trim();
+      const status = document.getElementById('loginStatus1');
+      if (!/^\S+@\S+\.\S+$/.test(email)) {
+        status.textContent = 'Enter a valid email address.';
+        status.className = 'status-line show err';
+        return;
+      }
+      if (!isCollegeEmail(email)) {
+        status.textContent = `Only @${COLLEGE_EMAIL_DOMAIN} college email addresses can log in.`;
+        status.className = 'status-line show err';
+        return;
+      }
+      currentEmail = email;
+      currentOtp = String(Math.floor(100000 + Math.random() * 900000));
+      document.getElementById('otpSentTo').textContent = `Code sent to ${email}.`;
+      status.className = '';
+      showLoginStep(2);
+      toast(`Demo OTP for ${email}: ${currentOtp}`, 6000);
+    });
+
+    document.getElementById('resendOtpBtn').addEventListener('click', () => {
+      currentOtp = String(Math.floor(100000 + Math.random() * 900000));
+      toast(`New demo OTP: ${currentOtp}`, 6000);
+    });
+
+    document.getElementById('verifyOtpBtn').addEventListener('click', () => {
+      const boxes = document.querySelectorAll('#loginStep2 .otp-boxes input');
+      const entered = Array.from(boxes).map(b => b.value).join('');
+      const status = document.getElementById('loginStatus2');
+      if (entered.length < 6) {
+        status.textContent = 'Enter all 6 digits.';
+        status.className = 'status-line show err';
+        return;
+      }
+      if (entered === currentOtp) {
+        session = { loggedIn: true, email: currentEmail };
+        saveSession();
+        document.getElementById('welcomeMsg').textContent = `Logged in as ${currentEmail}.`;
+        showLoginStep(3);
+      } else {
+        status.textContent = 'Incorrect code. Please try again.';
+        status.className = 'status-line show err';
+      }
+    });
+
+    document.querySelectorAll('#loginStep2 .otp-boxes input').forEach((inp, idx, arr) => {
+      inp.addEventListener('input', () => {
+        inp.value = inp.value.replace(/\D/g, '');
+        if (inp.value && arr[idx + 1]) arr[idx + 1].focus();
+      });
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !inp.value && arr[idx - 1]) arr[idx - 1].focus();
+      });
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      document.getElementById('loginEmail').value = '';
+      document.querySelectorAll('#loginStep2 .otp-boxes input').forEach(b => b.value = '');
+      document.getElementById('loginStatus1').className = 'status-line';
+      document.getElementById('loginStatus2').className = 'status-line';
+      currentOtp = null;
+      session = { loggedIn: false, email: '' };
+      saveSession();
+      showLoginStep(1);
+      toast('Logged out.');
+    });
+
+    if (session.loggedIn && session.email) {
+      currentEmail = session.email;
+      document.getElementById('welcomeMsg').textContent = `Logged in as ${session.email}.`;
+      showLoginStep(3);
+    }
+
+    /* ============================= ADMIN ACCESS & DASHBOARD ============================= */
+    document.getElementById('adminLoginBtn').addEventListener('click', () => {
+      const u = document.getElementById('adminUser').value.trim();
+      const p = document.getElementById('adminPass').value.trim();
+      const status = document.getElementById('adminStatus');
+      if (u === 'admin' && p === 'tsc-admin') {
+        document.getElementById('adminLoginBlock').classList.add('hidden');
+        document.getElementById('adminDashBlock').classList.remove('hidden');
+        renderAllAdminPanels();
+        toast('Welcome back, admin.');
+      } else {
+        status.textContent = 'Invalid username or password.';
+        status.className = 'status-line show err';
+      }
+    });
+
+    document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+      document.getElementById('adminDashBlock').classList.add('hidden');
+      document.getElementById('adminLoginBlock').classList.remove('hidden');
+      document.getElementById('adminUser').value = '';
+      document.getElementById('adminPass').value = '';
+      document.getElementById('adminStatus').className = 'status-line';
+      toast('Signed out.');
+    });
+
+    document.getElementById('adminTabs').addEventListener('click', (e) => {
+      if (!e.target.dataset.admintab) return;
+      document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      document.querySelectorAll('.admin-tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('adminPanel' + e.target.dataset.admintab.charAt(0).toUpperCase() + e.target.dataset.admintab.slice(1)).classList.add('active');
+    });
+
+    function refreshAdminStats() {
+      document.getElementById('statEvents').textContent = EVENTS.length;
+      document.getElementById('statAchv').textContent = ACHIEVEMENTS.length;
+      document.getElementById('statMembers').textContent = LEADS.length + CORE.length;
+      document.getElementById('statRentals').textContent = RENTAL_REQUESTS.length;
+      document.getElementById('statShop').textContent = SHOP_ITEMS.length;
+      const podiums = document.getElementById('heroPodiumsStat');
+      if (podiums) podiums.textContent = ACHIEVEMENTS.length;
+    }
+
+    function renderAllAdminPanels() {
+      renderAdminEvents();
+      renderAdminAchievements();
+      renderAdminLeads();
+      renderAdminCore();
+      renderAdminTeams();
+      renderAdminShop();
+      renderAdminRentals();
+      refreshAdminStats();
+    }
+
+    /* ============================= ADMIN MANAGERS (ASYNC CRUD) ============================= */
+
+    /* ---- Achievements Manager ---- */
+    let editAchvId = null;
+    function renderAdminAchievements() {
+      const list = document.getElementById('achvMgrList');
+      if (!ACHIEVEMENTS.length) { list.innerHTML = '<div class="mgr-empty">No achievements logged yet.</div>'; return; }
+      list.innerHTML = ACHIEVEMENTS.map(a => `
+    <div class="mgr-row">
+      <div class="info">
+        <strong>${a.title}</strong>
+        <span class="meta">${a.badge} · ${a.featured ? '★ Featured' : 'Archive'}</span>
+      </div>
+      <div class="actions">
+        <button class="btn btn-ghost-sm btn-xs" data-act="edit" data-id="${a.id}">Edit</button>
+        <button class="btn btn-danger btn-xs" data-act="delete" data-id="${a.id}">Delete</button>
+      </div>
+    </div>`).join('');
+    }
+
+    function resetAchvForm() {
+      editAchvId = null;
+      document.getElementById('achvTitle').value = '';
+      document.getElementById('achvBadge').value = '';
+      document.getElementById('achvPriority').value = 'normal';
+      document.getElementById('achvDesc').value = '';
+      document.getElementById('achvSaveBtn').textContent = 'Add achievement';
+      document.getElementById('achvCancelBtn').classList.add('hidden');
+    }
+
+    document.getElementById('achvSaveBtn').addEventListener('click', async () => {
+      const title = document.getElementById('achvTitle').value.trim();
+      const badge = document.getElementById('achvBadge').value.trim();
+      const featured = document.getElementById('achvPriority').value === 'featured';
+      const desc = document.getElementById('achvDesc').value.trim();
+      if (!title || !badge || !desc) { toast('Fill in title, badge, and description.'); return; }
+
+      const payload = { title, badge, featured, desc };
+
+      if (editAchvId) {
+        const res = await apiRequest(`/achievements/${editAchvId}`, 'PUT', payload);
+        if (res.success) {
+          const idx = ACHIEVEMENTS.findIndex(x => x.id === editAchvId);
+          if (idx !== -1) ACHIEVEMENTS[idx] = { ...ACHIEVEMENTS[idx], ...payload };
+          toast('Achievement updated.');
+        }
+      } else {
+        const res = await apiRequest('/achievements', 'POST', payload);
+        if (res.success) {
+          ACHIEVEMENTS.unshift({ id: res.id, ...payload });
+          toast('Achievement added.');
+        }
+      }
+      resetAchvForm();
+      renderAdminAchievements();
+      renderAchievements();
+      refreshAdminStats();
+    });
+
+    document.getElementById('achvCancelBtn').addEventListener('click', resetAchvForm);
+
+    document.getElementById('achvMgrList').addEventListener('click', async (e) => {
+      const id = e.target.dataset.id;
+      if (!id) return;
+      if (e.target.dataset.act === 'delete') {
+        const res = await apiRequest(`/achievements/${id}`, 'DELETE');
+        if (res.success) {
+          ACHIEVEMENTS = ACHIEVEMENTS.filter(x => x.id !== id);
+          renderAdminAchievements();
+          renderAchievements();
+          refreshAdminStats();
+          toast('Achievement deleted.');
+        }
+      } else if (e.target.dataset.act === 'edit') {
+        const item = ACHIEVEMENTS.find(x => x.id === id);
+        if (!item) return;
+        editAchvId = id;
+        document.getElementById('achvTitle').value = item.title;
+        document.getElementById('achvBadge').value = item.badge;
+        document.getElementById('achvPriority').value = item.featured ? 'featured' : 'normal';
+        document.getElementById('achvDesc').value = item.desc;
+        document.getElementById('achvSaveBtn').textContent = 'Save changes';
+        document.getElementById('achvCancelBtn').classList.remove('hidden');
+      }
+    });
+
+    /* ---- Events Manager ---- */
+    let editEventId = null;
+    function renderAdminEvents() {
+      const list = document.getElementById('eventsMgrList');
+      if (!EVENTS.length) { list.innerHTML = '<div class="mgr-empty">No events yet.</div>'; return; }
+      list.innerHTML = EVENTS.map(ev => `
+    <div class="mgr-row">
+      <div class="info"><strong>${ev.name}</strong><span class="meta">${ev.date} · ${ev.tag}</span></div>
+      <div class="actions">
+        <button class="btn btn-ghost-sm btn-xs" data-act="edit" data-id="${ev.id}">Edit</button>
+        <button class="btn btn-danger btn-xs" data-act="delete" data-id="${ev.id}">Delete</button>
+      </div>
+    </div>`).join('');
+    }
+
+    function resetEventForm() {
+      editEventId = null;
+      document.getElementById('evName').value = '';
+      document.getElementById('evDate').value = '';
+      document.getElementById('evDomain').value = 'robotics';
+      document.getElementById('evTag').value = '';
+      document.getElementById('evDesc').value = '';
+      document.getElementById('evSaveBtn').textContent = 'Add event';
+      document.getElementById('evCancelBtn').classList.add('hidden');
+    }
+
+    document.getElementById('evSaveBtn').addEventListener('click', async () => {
+      const name = document.getElementById('evName').value.trim();
+      const date = document.getElementById('evDate').value.trim();
+      const domain = document.getElementById('evDomain').value;
+      const tag = document.getElementById('evTag').value.trim();
+      const desc = document.getElementById('evDesc').value.trim();
+      if (!name || !date || !tag) { toast('Fill in name, date, and tag.'); return; }
+
+      const payload = { name, date, domain, tag, desc, drive: '#' };
+
+      if (editEventId) {
+        const res = await apiRequest(`/events/${editEventId}`, 'PUT', payload);
+        if (res.success) {
+          const idx = EVENTS.findIndex(x => x.id === editEventId);
+          if (idx !== -1) EVENTS[idx] = { ...EVENTS[idx], ...payload };
+          toast('Event updated.');
+        }
+      } else {
+        const res = await apiRequest('/events', 'POST', payload);
+        if (res.success) {
+          EVENTS.unshift({ id: res.id, ...payload });
+          toast('Event added.');
+        }
+      }
+      resetEventForm();
+      renderAdminEvents();
+      renderEvents();
+      refreshAdminStats();
+    });
+
+    document.getElementById('evCancelBtn').addEventListener('click', resetEventForm);
+
+    document.getElementById('eventsMgrList').addEventListener('click', async (e) => {
+      const id = e.target.dataset.id;
+      if (!id) return;
+      if (e.target.dataset.act === 'delete') {
+        const res = await apiRequest(`/events/${id}`, 'DELETE');
+        if (res.success) {
+          EVENTS = EVENTS.filter(x => x.id !== id);
+          renderAdminEvents();
+          renderEvents();
+          refreshAdminStats();
+          toast('Event deleted.');
+        }
+      } else if (e.target.dataset.act === 'edit') {
+        const ev = EVENTS.find(x => x.id === id);
+        if (!ev) return;
+        editEventId = id;
+        document.getElementById('evName').value = ev.name;
+        document.getElementById('evDate').value = ev.date;
+        document.getElementById('evDomain').value = ev.domain;
+        document.getElementById('evTag').value = ev.tag;
+        document.getElementById('evDesc').value = ev.desc || '';
+        document.getElementById('evSaveBtn').textContent = 'Save changes';
+        document.getElementById('evCancelBtn').classList.remove('hidden');
+      }
+    });
+
+    /* ---- Blackout / Leads / Core / Teams Manager ---- */
+    function mgrRowSimple(entity, id, title, meta) {
+      return `<div class="mgr-row">
+    <div class="info"><strong>${title}</strong><span class="meta">${meta}</span></div>
+    <div class="actions">
+      <button class="btn btn-ghost-sm btn-xs" data-entity="${entity}" data-act="edit" data-id="${id}">Edit</button>
+      <button class="btn btn-danger btn-xs" data-entity="${entity}" data-act="delete" data-id="${id}">Delete</button>
+    </div>
+  </div>`;
+    }
+
+    let editLeadId = null;
+    function renderAdminLeads() {
+      const list = document.getElementById('leadsMgrList');
+      list.innerHTML = LEADS.length ? LEADS.map(m => mgrRowSimple('leads', m.id, m.name, `${m.role} · ${m.domain}`)).join('') : '<div class="mgr-empty">No position holders yet.</div>';
+    }
+    function resetLeadForm() {
+      editLeadId = null;
+      document.getElementById('leadName').value = '';
+      document.getElementById('leadRole').value = '';
+      document.getElementById('leadDomain').value = '';
+      document.getElementById('leadSaveBtn').textContent = 'Add position holder';
+      document.getElementById('leadCancelBtn').classList.add('hidden');
+    }
+    document.getElementById('leadSaveBtn').addEventListener('click', async () => {
+      const name = document.getElementById('leadName').value.trim();
+      const role = document.getElementById('leadRole').value.trim();
+      const domain = document.getElementById('leadDomain').value.trim();
+      if (!name || !role) { toast('Fill in name and role.'); return; }
+      const payload = { name, role, domain };
+
+      if (editLeadId) {
+        const res = await apiRequest(`/leads/${editLeadId}`, 'PUT', payload);
+        if (res.success) {
+          const idx = LEADS.findIndex(x => x.id === editLeadId);
+          if (idx !== -1) LEADS[idx] = { ...LEADS[idx], ...payload };
+          toast('Position holder updated.');
+        }
+      } else {
+        const res = await apiRequest('/leads', 'POST', payload);
+        if (res.success) {
+          LEADS.push({ id: res.id, ...payload });
+          toast('Position holder added.');
+        }
+      }
+      resetLeadForm(); renderAdminLeads(); renderBlackout(); refreshAdminStats();
+    });
+    document.getElementById('leadCancelBtn').addEventListener('click', resetLeadForm);
+
+    let editCoreId = null;
+    function renderAdminCore() {
+      const list = document.getElementById('coreMgrList');
+      list.innerHTML = CORE.length ? CORE.map(m => mgrRowSimple('core', m.id, m.name, `${m.role} · ${m.domain}`)).join('') : '<div class="mgr-empty">No core team members yet.</div>';
+    }
+    function resetCoreForm() {
+      editCoreId = null;
+      document.getElementById('coreName').value = '';
+      document.getElementById('coreRole').value = '';
+      document.getElementById('coreDomain').value = '';
+      document.getElementById('coreSaveBtn').textContent = 'Add core member';
+      document.getElementById('coreCancelBtn').classList.add('hidden');
+    }
+    document.getElementById('coreSaveBtn').addEventListener('click', async () => {
+      const name = document.getElementById('coreName').value.trim();
+      const role = document.getElementById('coreRole').value.trim();
+      const domain = document.getElementById('coreDomain').value.trim();
+      if (!name || !role) { toast('Fill in name and role.'); return; }
+      const payload = { name, role, domain };
+
+      if (editCoreId) {
+        const res = await apiRequest(`/core/${editCoreId}`, 'PUT', payload);
+        if (res.success) {
+          const idx = CORE.findIndex(x => x.id === editCoreId);
+          if (idx !== -1) CORE[idx] = { ...CORE[idx], ...payload };
+          toast('Core member updated.');
+        }
+      } else {
+        const res = await apiRequest('/core', 'POST', payload);
+        if (res.success) {
+          CORE.push({ id: res.id, ...payload });
+          toast('Core member added.');
+        }
+      }
+      resetCoreForm(); renderAdminCore(); renderBlackout(); refreshAdminStats();
+    });
+    document.getElementById('coreCancelBtn').addEventListener('click', resetCoreForm);
+
+    let editTeamId = null;
+    function renderAdminTeams() {
+      const list = document.getElementById('teamsMgrList');
+      list.innerHTML = TEAMS.length ? TEAMS.map(t => mgrRowSimple('teams', t.id, t.name, `${t.tag} · ${(t.achievements || []).length} achievement(s)`)).join('') : '<div class="mgr-empty">No teams yet.</div>';
+    }
+    function resetTeamForm() {
+      editTeamId = null;
+      document.getElementById('teamName').value = '';
+      document.getElementById('teamTag').value = '';
+      document.getElementById('teamAchv').value = '';
+      document.getElementById('teamSaveBtn').textContent = 'Add team';
+      document.getElementById('teamCancelBtn').classList.add('hidden');
+    }
+    document.getElementById('teamSaveBtn').addEventListener('click', async () => {
+      const name = document.getElementById('teamName').value.trim();
+      const tag = document.getElementById('teamTag').value.trim();
+      const achievements = document.getElementById('teamAchv').value.split(',').map(s => s.trim()).filter(Boolean);
+      if (!name || !tag) { toast('Fill in team name and tag.'); return; }
+      const payload = { name, tag, achievements };
+
+      if (editTeamId) {
+        const res = await apiRequest(`/teams/${editTeamId}`, 'PUT', payload);
+        if (res.success) {
+          const idx = TEAMS.findIndex(x => x.id === editTeamId);
+          if (idx !== -1) TEAMS[idx] = { ...TEAMS[idx], ...payload };
+          toast('Team updated.');
+        }
+      } else {
+        const res = await apiRequest('/teams', 'POST', payload);
+        if (res.success) {
+          TEAMS.push({ id: res.id, ...payload });
+          toast('Team added.');
+        }
+      }
+      resetTeamForm(); renderAdminTeams(); renderBlackout(); refreshAdminStats();
+    });
+    document.getElementById('teamCancelBtn').addEventListener('click', resetTeamForm);
+
+    document.getElementById('adminPanelBlackout').addEventListener('click', async (e) => {
+      const entity = e.target.dataset.entity, act = e.target.dataset.act, id = e.target.dataset.id;
+      if (!entity || !id) return;
+
+      if (act === 'delete') {
+        const res = await apiRequest(`/${entity}/${id}`, 'DELETE');
+        if (res.success) {
+          if (entity === 'leads') { LEADS = LEADS.filter(x => x.id !== id); renderAdminLeads(); }
+          if (entity === 'core') { CORE = CORE.filter(x => x.id !== id); renderAdminCore(); }
+          if (entity === 'teams') { TEAMS = TEAMS.filter(x => x.id !== id); renderAdminTeams(); }
+          renderBlackout();
+          refreshAdminStats();
+          toast('Removed.');
+        }
+      } else if (act === 'edit') {
+        if (entity === 'leads') {
+          const m = LEADS.find(x => x.id === id); if (!m) return;
+          editLeadId = id;
+          document.getElementById('leadName').value = m.name;
+          document.getElementById('leadRole').value = m.role;
+          document.getElementById('leadDomain').value = m.domain;
+          document.getElementById('leadSaveBtn').textContent = 'Save changes';
+          document.getElementById('leadCancelBtn').classList.remove('hidden');
+        } else if (entity === 'core') {
+          const m = CORE.find(x => x.id === id); if (!m) return;
+          editCoreId = id;
+          document.getElementById('coreName').value = m.name;
+          document.getElementById('coreRole').value = m.role;
+          document.getElementById('coreDomain').value = m.domain;
+          document.getElementById('coreSaveBtn').textContent = 'Save changes';
+          document.getElementById('coreCancelBtn').classList.remove('hidden');
+        } else if (entity === 'teams') {
+          const m = TEAMS.find(x => x.id === id); if (!m) return;
+          editTeamId = id;
+          document.getElementById('teamName').value = m.name;
+          document.getElementById('teamTag').value = m.tag;
+          document.getElementById('teamAchv').value = (m.achievements || []).join(', ');
+          document.getElementById('teamSaveBtn').textContent = 'Save changes';
+          document.getElementById('teamCancelBtn').classList.remove('hidden');
+        }
+      }
+    });
+
+    /* ---- Shop Manager ---- */
+    let editShopId = null;
+    function renderAdminShop() {
+      const list = document.getElementById('shopMgrList');
+      list.innerHTML = SHOP_ITEMS.length ? SHOP_ITEMS.map(item => `
+    <div class="mgr-row">
+      <div class="info"><strong>${item.name}</strong><span class="meta">${item.rate} · ${item.stock === 'in' ? 'In stock' : 'Low stock'}</span></div>
+      <div class="actions">
+        <button class="btn btn-ghost-sm btn-xs" data-act="edit" data-id="${item.id}">Edit</button>
+        <button class="btn btn-danger btn-xs" data-act="delete" data-id="${item.id}">Delete</button>
+      </div>
+    </div>`).join('') : '<div class="mgr-empty">No shop items yet.</div>';
+    }
+    function resetShopForm() {
+      editShopId = null;
+      document.getElementById('shName').value = '';
+      document.getElementById('shSpec').value = '';
+      document.getElementById('shRate').value = '';
+      document.getElementById('shStock').value = 'in';
+      document.getElementById('shSaveBtn').textContent = 'Add item';
+      document.getElementById('shCancelBtn').classList.add('hidden');
+    }
+    document.getElementById('shSaveBtn').addEventListener('click', async () => {
+      const name = document.getElementById('shName').value.trim();
+      const spec = document.getElementById('shSpec').value.trim();
+      const rate = document.getElementById('shRate').value.trim();
+      const stock = document.getElementById('shStock').value;
+      if (!name || !rate) { toast('Fill in item name and rate.'); return; }
+      const payload = { name, spec, rate, stock };
+
+      if (editShopId) {
+        const res = await apiRequest(`/shop/${editShopId}`, 'PUT', payload);
+        if (res.success) {
+          const idx = SHOP_ITEMS.findIndex(x => x.id === editShopId);
+          if (idx !== -1) SHOP_ITEMS[idx] = { ...SHOP_ITEMS[idx], ...payload };
+          toast('Shop item updated.');
+        }
+      } else {
+        const res = await apiRequest('/shop', 'POST', payload);
+        if (res.success) {
+          SHOP_ITEMS.unshift({ id: res.id, ...payload });
+          toast('Shop item added.');
+        }
+      }
+      resetShopForm(); renderAdminShop(); renderShop(); refreshAdminStats();
+    });
+    document.getElementById('shCancelBtn').addEventListener('click', resetShopForm);
+
+    document.getElementById('shopMgrList').addEventListener('click', async (e) => {
+      const id = e.target.dataset.id;
+      if (!id) return;
+      if (e.target.dataset.act === 'delete') {
+        const res = await apiRequest(`/shop/${id}`, 'DELETE');
+        if (res.success) {
+          SHOP_ITEMS = SHOP_ITEMS.filter(x => x.id !== id);
+          renderAdminShop(); renderShop(); refreshAdminStats();
+          toast('Shop item deleted.');
+        }
+      } else if (e.target.dataset.act === 'edit') {
+        const item = SHOP_ITEMS.find(x => x.id === id);
+        if (!item) return;
+        editShopId = id;
+        document.getElementById('shName').value = item.name;
+        document.getElementById('shSpec').value = item.spec;
+        document.getElementById('shRate').value = item.rate;
+        document.getElementById('shStock').value = item.stock;
+        document.getElementById('shSaveBtn').textContent = 'Save changes';
+        document.getElementById('shCancelBtn').classList.remove('hidden');
+      }
+    });
+
+    /* ---- Rental Requests Manager ---- */
+    function renderAdminRentals() {
+      const list = document.getElementById('rentalsMgrList');
+      if (!RENTAL_REQUESTS.length) { list.innerHTML = '<div class="mgr-empty">No rental requests yet.</div>'; return; }
+      list.innerHTML = RENTAL_REQUESTS.map(r => `
+    <div class="mgr-row">
+      <div class="info">
+        <strong>${r.item}</strong>
+        <span class="meta">${r.name} · ${r.email} · ${r.days} day(s) · ${r.requestedAt}</span>
+      </div>
+      <div class="actions">
+        <span class="badge ${r.status}">${r.status}</span>
+        ${r.status === 'pending' ? `
+          <button class="btn btn-solid btn-xs" data-act="accepted" data-id="${r.id}">Accept</button>
+          <button class="btn btn-danger btn-xs" data-act="rejected" data-id="${r.id}">Reject</button>
+        ` : ''}
+      </div>
+    </div>`).join('');
+    }
+
+    document.getElementById('rentalsMgrList').addEventListener('click', async (e) => {
+      const id = e.target.dataset.id, act = e.target.dataset.act;
+      if (!id || !act) return;
+      const res = await apiRequest(`/rentals/${id}`, 'PUT', { status: act });
+      if (res.success) {
+        const req = RENTAL_REQUESTS.find(x => x.id === id);
+        if (req) req.status = act;
+        renderAdminRentals();
+        refreshAdminStats();
+        toast(`Request marked as ${act}.`);
+      }
+    });
+
+    /* ============================= INITIALIZATION ============================= */
+    async function initializeApp() {
+      initHero();
+
+      // Single parallel fetch bootstrapping all Firestore data
+      const bootstrapRes = await apiRequest('/bootstrap');
+      if (bootstrapRes.success && bootstrapRes.data) {
+        const d = bootstrapRes.data;
+        EVENTS = d.events || [];
+        ACHIEVEMENTS = d.achievements || [];
+        SECRETARIES = d.secretaries || [];
+        LEADS = d.leads || [];
+        CORE = d.core || [];
+        TEAMS = d.teams || [];
+        SHOP_ITEMS = d.shop || [];
+        RENTAL_REQUESTS = d.rentals || [];
+      }
+
+      // Render initial views
+      renderAchievements();
+      renderSecretaries();
+      renderEvents('all');
+      renderBlackout();
+      renderShop();
+      refreshAdminStats();
+    }
+
+    // Start application
+    initializeApp();
+  </script>
+</body>
+
+</html>
