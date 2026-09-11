@@ -2193,8 +2193,7 @@
           </div>
           <button class="btn btn-solid btn-block" id="verifyBtn">Verify</button>
           <div id="verifyResult"></div>
-          <div class="mini-note">Demo dataset — try TSC-2025-0417, TSC-2025-0982, or TSC-2024-1130. Any other ID will
-            return "not found." A production version checks this against the council's issuing database.</div>
+
         </div>
       </div>
     </div>
@@ -2210,7 +2209,7 @@
         <div class="panel">
           <div class="step active" id="loginStep1">
             <h3>Enter your email</h3>
-            <p class="desc">We'll send a 6-digit code to verify it's you. Only <strong
+            <p class="desc">Only <strong
                 style="color:var(--accent-2)">@hbtu.ac.in</strong> college email addresses can sign in — this is also
               what unlocks equipment renting in the Shop.</p>
             <div class="field">
@@ -2218,27 +2217,8 @@
               <input id="loginEmail" type="email" placeholder="you@hbtu.ac.in" autocomplete="off">
               <div class="hint">Must be a valid @hbtu.ac.in college email.</div>
             </div>
-            <button class="btn btn-solid btn-block" id="sendOtpBtn">Send OTP</button>
+            <button class="btn btn-solid btn-block" id="sendOtpBtn">Log In</button>
             <div class="status-line" id="loginStatus1"></div>
-          </div>
-
-          <div class="step" id="loginStep2">
-            <h3>Enter the code</h3>
-            <p class="desc" id="otpSentTo">Code sent to your email.</p>
-            <div class="field">
-              <label>6-digit OTP</label>
-              <div class="otp-boxes">
-                <input maxlength="1" inputmode="numeric">
-                <input maxlength="1" inputmode="numeric">
-                <input maxlength="1" inputmode="numeric">
-                <input maxlength="1" inputmode="numeric">
-                <input maxlength="1" inputmode="numeric">
-                <input maxlength="1" inputmode="numeric">
-              </div>
-            </div>
-            <button class="btn btn-solid btn-block" id="verifyOtpBtn">Verify &amp; Log In</button>
-            <button class="btn btn-ghost-sm btn-block" style="margin-top:10px;" id="resendOtpBtn">Resend code</button>
-            <div class="status-line" id="loginStatus2"></div>
           </div>
 
           <div class="step" id="loginStep3">
@@ -2247,10 +2227,6 @@
             <p class="hint" style="margin-bottom:18px;">You can now rent equipment from the Shop.</p>
             <button class="btn btn-block" id="logoutBtn">Log out</button>
           </div>
-
-          <div class="mini-note">Demo only: OTP is generated in your browser and shown here instead of emailed. Wire
-            this up to a real mail/SMS service on the backend before going live.</div>
-        </div>
       </div>
     </div>
   </section>
@@ -2265,7 +2241,7 @@
         <div class="panel" id="adminPanel">
           <div id="adminLoginBlock">
             <h3>Admin sign-in</h3>
-            <p class="desc">Use the demo credentials below to preview the dashboard.</p>
+            <p class="desc">Use the admin credentials below to preview the dashboard.</p>
             <div class="field">
               <label for="adminUser">Username</label>
               <input id="adminUser" type="text" placeholder="admin" autocomplete="off">
@@ -2846,7 +2822,7 @@
     let currentEmail = '';
 
     function showLoginStep(n) {
-      [1, 2, 3].forEach(i => document.getElementById('loginStep' + i).classList.toggle('active', i === n));
+      [1, 3].forEach(i => document.getElementById('loginStep' + i).classList.toggle('active', i === n));
     }
 
     document.getElementById('sendOtpBtn').addEventListener('click', () => {
@@ -2864,35 +2840,20 @@
       }
       currentEmail = email;
       currentOtp = String(Math.floor(100000 + Math.random() * 900000));
-      document.getElementById('otpSentTo').textContent = `Code sent to ${email}.`;
       status.className = '';
-      showLoginStep(2);
-      toast(`Demo OTP for ${email}: ${currentOtp}`, 6000);
-    });
 
-    document.getElementById('resendOtpBtn').addEventListener('click', () => {
-      currentOtp = String(Math.floor(100000 + Math.random() * 900000));
-      toast(`New demo OTP: ${currentOtp}`, 6000);
-    });
-
-    document.getElementById('verifyOtpBtn').addEventListener('click', () => {
       const boxes = document.querySelectorAll('#loginStep2 .otp-boxes input');
-      const entered = Array.from(boxes).map(b => b.value).join('');
-      const status = document.getElementById('loginStatus2');
+      const entered = currentEmail;
+      const status_2 = document.getElementById('loginStatus2');
       if (entered.length < 6) {
-        status.textContent = 'Enter all 6 digits.';
-        status.className = 'status-line show err';
+        status_2.textContent = 'Enter all 6 digits.';
+        status_2.className = 'status-line show err';
         return;
       }
-      if (entered === currentOtp) {
-        session = { loggedIn: true, email: currentEmail };
-        saveSession();
-        document.getElementById('welcomeMsg').textContent = `Logged in as ${currentEmail}.`;
-        showLoginStep(3);
-      } else {
-        status.textContent = 'Incorrect code. Please try again.';
-        status.className = 'status-line show err';
-      }
+      session = { loggedIn: true, email: currentEmail };
+      saveSession();
+      document.getElementById('welcomeMsg').textContent = `Logged in as ${currentEmail}.`;
+      showLoginStep(3);
     });
 
     document.querySelectorAll('#loginStep2 .otp-boxes input').forEach((inp, idx, arr) => {
@@ -2909,8 +2870,6 @@
       document.getElementById('loginEmail').value = '';
       document.querySelectorAll('#loginStep2 .otp-boxes input').forEach(b => b.value = '');
       document.getElementById('loginStatus1').className = 'status-line';
-      document.getElementById('loginStatus2').className = 'status-line';
-      currentOtp = null;
       session = { loggedIn: false, email: '' };
       saveSession();
       showLoginStep(1);
