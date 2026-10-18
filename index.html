@@ -2787,7 +2787,7 @@
 
     /* ============================= CERTIFICATE VERIFICATION (API) ============================= */
     document.getElementById('verifyBtn').addEventListener('click', async () => {
-      const id = document.getElementById('certInput').value.trim().toUpperCase();
+      const id = document.getElementById('certInput').value.trim().replaceAll('/', '-').toUpperCase();
       const box = document.getElementById('verifyResult');
       if (!id) { toast('Enter a certificate ID first.'); return; }
 
